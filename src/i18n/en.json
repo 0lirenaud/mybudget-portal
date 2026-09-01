@@ -1,0 +1,27 @@
+{
+  "main-menus": {
+    "transactions": "Transactions",
+    "accounts": "Accounts",
+    "groups": "Groups"
+  },
+  "page-titles": {
+    "transactions": "Transactions"
+  },
+  "transactions": {
+    "date": "Date",
+    "description": "Description",
+    "amount": "Amount"
+  },
+  "buttons": {
+    "save": "Save",
+    "edit": "Edit",
+    "manage": "Manage",
+    "delete": "Delete"
+  },
+  "operations": "Operations",
+  "warnings": {
+    "empty": {
+      "category": "This category is empty."
+    }
+  }
+}

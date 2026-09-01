@@ -1,0 +1,65 @@
+@import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+#app {
+  height: 100dvh;
+}
+
+::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+
+.title {
+  color: var(--title-color);
+  font-weight: 600;
+}
+
+.text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* CARD */
+.el-card__body {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* TABLE */
+.el-table {
+  color: var(--color-text) !important;
+}
+
+.el-table__header,
+.el-table__header thead,
+.el-table th.el-table__cell {
+  font-size: 14px;
+  background-color: color-mix(var(--primary-color) 15%, transparent);
+  color: var(--primary-color) !important;
+  font-weight: 600;
+}
+
+.table-content {
+  margin: 0 10px;
+}
+
+.table-row {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.content-row {
+  transition:
+    border-color var(--el-transition-duration),
+    background-color var(--el-transition-duration),
+    color var(--el-transition-duration);
+}
+
+.content-row:hover {
+  background-color: var(--el-menu-hover-bg-color);
+}
