@@ -29,6 +29,6 @@
     }
   },
   "form": {
-    "lowercase-required": "Must include a lowercase letter"
+    "required": "@.capitalize:{field} is required."
   }
 }

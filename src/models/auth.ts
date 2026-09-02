@@ -1,7 +1,17 @@
+import i18n from '@/i18n/i18n'
+import { useI18n } from 'vue-i18n'
 import z from 'zod'
 
 export const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string({
+    required_error: i18n.global.t('form.required', { field: 'email' }),
+  }).email(),
+  password: z.string({
+    required_error: i18n.global.t('form.required', { field: 'password' }),
+  }).trim().min(1, i18n.global.t('form.required', { field: 'password' })),
+})
+
+export const registerSchema = z.object({
   password: z
     .string()
     .min(8)

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
+    "@rolldown/binding-win32-x64-msvc": "^1.2.7",
     "@vee-validate/zod": "^4.15.1",
     "dayjs": "^1.11.23",
     "element-plus": "^2.14.5",
