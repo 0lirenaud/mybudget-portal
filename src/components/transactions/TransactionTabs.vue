@@ -18,7 +18,7 @@ const currentTab = ref<string>('first')
 
 <template>
   <ElTabs v-model="currentTab">
-    <ElTabPane label="Per Category" name="first">
+    <ElTabPane :label="$t('tabs.per-category')" name="first">
       <ElScrollbar>
         <ElSpace size="large" style="align-items: start; margin-right: 20px">
           <TransactionCard
@@ -30,7 +30,7 @@ const currentTab = ref<string>('first')
       </ElScrollbar>
     </ElTabPane>
 
-    <ElTabPane label="All" name="second">
+    <ElTabPane :label="$t('tabs.all')" name="second">
       <ElCard shadow="never" style="margin-bottom: 10px; max-height: 82dvh">
         <TransactionTable :transactions="transactions" table-layout="auto" height="82dvh">
           <ElTableColumn label="Category" property="category.name"></ElTableColumn>

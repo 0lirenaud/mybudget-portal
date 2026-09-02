@@ -4,6 +4,10 @@
     "accounts": "Accounts",
     "groups": "Groups"
   },
+  "tabs": {
+    "all": "All",
+    "per-category": "Per Category"
+  },
   "page-titles": {
     "transactions": "Transactions"
   },
@@ -23,5 +27,8 @@
     "empty": {
       "category": "This category is empty."
     }
+  },
+  "form": {
+    "lowercase-required": "Must include a lowercase letter"
   }
 }

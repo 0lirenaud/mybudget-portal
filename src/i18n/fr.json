@@ -4,6 +4,10 @@
     "accounts": "Comptes",
     "groups": "Groupes"
   },
+  "tabs": {
+    "all": "Tout",
+    "per-category": "Par Catégorie"
+  },
   "page-titles": {
     "transactions": "Transactions"
   },

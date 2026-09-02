@@ -45,6 +45,9 @@
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
 
+  --color-valid: var(--positive-color);
+  --color-error: var(--negative-color);
+
   --section-gap: 160px;
 
   --el-menu-active-color: var(--primary-color-dark) !important;
@@ -52,6 +55,7 @@
 
   --el-color-primary: var(--primary-color) !important;
   --el-table-row-hover-bg-color: color-mix(var(--primary-color-dark) 10%, transparent) !important;
+  --el-border-radius-base: 10px !important;
 }
 
 /* @media (prefers-color-scheme: dark) {

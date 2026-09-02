@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ElContainer, ElHeader } from 'element-plus'
+import { ElContainer } from 'element-plus'
 import SideMenu from './components/SideMenu.vue'
 import { useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <template>
@@ -9,7 +11,7 @@ import { useRoute } from 'vue-router'
 
   <main>
     <ElContainer>
-      <ElAside width="15%">
+      <ElAside v-if="!route.meta.hideAside" width="15%">
         <SideMenu />
       </ElAside>
 

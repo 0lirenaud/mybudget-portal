@@ -8,10 +8,18 @@ import { createPinia } from 'pinia'
 import { createPersistedState } from 'pinia-plugin-persistedstate'
 import { router } from './routes.ts'
 import i18n from './i18n/i18n.ts'
+import { configure } from 'vee-validate'
 
 const piniaPersistedState = createPersistedState()
 const pinia = createPinia()
 pinia.use(piniaPersistedState)
+
+configure({
+  validateOnBlur: true,
+  validateOnChange: false,
+  validateOnInput: false,
+  validateOnModelUpdate: false,
+})
 
 const app = createApp(App)
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { transactions, type TransactionCategory } from '@/models/transaction'
+import { transactions, type Category } from '@/models/transaction'
 import { ElCard } from 'element-plus'
 import TransactionTable from './TransactionTable.vue'
 
 interface Props {
-  category: TransactionCategory
+  category: Category
 }
 
 const props = defineProps<Props>()

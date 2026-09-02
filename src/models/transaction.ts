@@ -1,21 +1,26 @@
-export interface Transaction {
-  id: string
-  name: string
-  description: string
-  amount: number
-  isRecipient: boolean
-  registeredDate: string
-  category: TransactionCategory
-  createdBy: string
-  group?: string
-}
+import z from 'zod'
 
-export interface TransactionCategory {
-  id: string
-  name: string
-}
+const categorySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+})
 
-export const transactionCategories: TransactionCategory[] = [
+const transactionSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  amount: z.number(),
+  isRecipient: z.boolean().default(false),
+  registeredDate: z.string(),
+  category: categorySchema,
+  createdBy: z.string(),
+  group: z.string().nullable().optional(),
+})
+
+export type Category = z.infer<typeof categorySchema>
+export type Transaction = z.infer<typeof transactionSchema>
+
+export const transactionCategories: Category[] = [
   {
     id: '1',
     name: 'Alimentation',
