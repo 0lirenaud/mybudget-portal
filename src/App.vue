@@ -9,9 +9,14 @@ const route = useRoute()
 <template>
   <header></header>
 
-  <main>
+  <main :class="route.meta.background">
     <ElContainer>
-      <ElAside v-if="!route.meta.hideAside" width="15%">
+      <ElAside
+        v-if="!route.meta.hideAside"
+        width="auto"
+        max-width="15%"
+        style="overflow: visible; min-width: 0 !important; max-width: 15% !important"
+      >
         <SideMenu />
       </ElAside>
 

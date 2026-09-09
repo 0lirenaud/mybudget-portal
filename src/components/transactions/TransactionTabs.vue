@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { transactionCategories, transactions } from '@/models/transaction'
-import {
-  ElSpace,
-  ElTabPane,
-  ElTabs,
-  ElScrollbar,
-  ElTable,
-  ElTableColumn,
-  ElCard,
-} from 'element-plus'
+import { ElSpace, ElTabPane, ElTabs, ElScrollbar, ElTableColumn, ElCard } from 'element-plus'
 import { ref } from 'vue'
 import TransactionCard from './TransactionCard.vue'
 import TransactionTable from './TransactionTable.vue'
+import { getCategories } from '@/api/queries/categoryQueries.ts'
+import { getTransactions } from '@/api/queries/transactionQueries.ts'
 
 const currentTab = ref<string>('first')
+
+const { data: categories, isLoading } = getCategories()
+const { data: transactions } = getTransactions()
 </script>
 
 <template>
@@ -21,19 +17,19 @@ const currentTab = ref<string>('first')
     <ElTabPane :label="$t('tabs.per-category')" name="first">
       <ElScrollbar>
         <ElSpace size="large" style="align-items: start; margin-right: 20px">
-          <TransactionCard
-            v-for="category in transactionCategories"
-            :key="category.id"
-            :category="category"
-          />
+          <TransactionCard v-for="category in categories" :key="category.id" :category="category" />
         </ElSpace>
       </ElScrollbar>
     </ElTabPane>
 
     <ElTabPane :label="$t('tabs.all')" name="second">
       <ElCard shadow="never" style="margin-bottom: 10px; max-height: 82dvh">
-        <TransactionTable :transactions="transactions" table-layout="auto" height="82dvh">
-          <ElTableColumn label="Category" property="category.name"></ElTableColumn>
+        <TransactionTable :transactions="transactions ?? []" table-layout="auto" height="82dvh">
+          <ElTableColumn
+            label="Category"
+            property="category.name"
+            min-width="180px"
+          ></ElTableColumn>
 
           <ElTableColumn label="Group">
             <template #default="scope">

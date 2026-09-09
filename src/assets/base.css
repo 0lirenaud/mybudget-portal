@@ -23,6 +23,10 @@
   --primary-color: #6366f1;
   --primary-color-dark: #4f46e5;
   --primary-color-light: #c8c4ff;
+  --primary-color-lighter: #eef2ff;
+
+  --surface-color: #f8fafc;
+  --surface-secondary-color: #f1f5f9;
 
   --title-color: #1e293b;
   --secondary-color: #64748b;
@@ -50,8 +54,8 @@
 
   --section-gap: 160px;
 
+  --el-menu-base-level-padding: 12px !important;
   --el-menu-active-color: var(--primary-color-dark) !important;
-  --el-menu-hover-bg-color: color-mix(var(--primary-color-dark) 10%, transparent) !important;
 
   --el-color-primary: var(--primary-color) !important;
   --el-table-row-hover-bg-color: color-mix(var(--primary-color-dark) 10%, transparent) !important;

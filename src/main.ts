@@ -9,6 +9,7 @@ import { createPersistedState } from 'pinia-plugin-persistedstate'
 import { router } from './routes.ts'
 import i18n from './i18n/i18n.ts'
 import { configure } from 'vee-validate'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 
 const piniaPersistedState = createPersistedState()
 const pinia = createPinia()
@@ -24,7 +25,10 @@ configure({
 const app = createApp(App)
 
 app.use(pinia)
+
 app.use(ElementPlus)
+
+app.use(VueQueryPlugin)
 
 app.use(router)
 

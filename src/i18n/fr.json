@@ -9,7 +9,8 @@
     "per-category": "Par Catégorie"
   },
   "page-titles": {
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "login": "Connexion"
   },
   "transactions": {
     "date": "Date",
@@ -27,5 +28,24 @@
     "empty": {
       "category": "Cette catégorie est vide."
     }
+  },
+  "form": {
+    "messages": {
+      "required": "Ce champ est requis.",
+      "email": "Veuillez entrer une adresse courriel valide."
+    }
+  },
+  "sub-titles": {
+    "login": {
+      "no-account": "Vous n'avez pas de compte ?"
+    }
+  },
+  "links": {
+    "create-account": "Allons en créer un !",
+    "forgot-password": "Mot de passe oublié ?"
+  },
+  "labels": {
+    "email": "Adresse courriel",
+    "password": "Mot de passe"
   }
 }

@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { transactions, type Category } from '@/models/transaction'
+import { type Category } from '@/models/transaction'
 import { ElCard } from 'element-plus'
 import TransactionTable from './TransactionTable.vue'
+import { getTransactions } from '@/api/queries/transactionQueries.ts'
 
 interface Props {
   category: Category
 }
 
 const props = defineProps<Props>()
-const data = transactions.filter((t) => t.category.id === props.category.id)
+const { data: transactions } = getTransactions(props.category.id)
 </script>
 
 <template>
@@ -20,7 +21,7 @@ const data = transactions.filter((t) => t.category.id === props.category.id)
     </template>
 
     <div class="card-body">
-      <TransactionTable :transactions="data" height="76dvh" />
+      <TransactionTable :transactions="transactions ?? []" height="76dvh" />
     </div>
   </ElCard>
 </template>
@@ -32,9 +33,5 @@ const data = transactions.filter((t) => t.category.id === props.category.id)
 
 .card-header {
   font-size: 16px;
-}
-
-.card-body {
-  max-height: 76dvh;
 }
 </style>

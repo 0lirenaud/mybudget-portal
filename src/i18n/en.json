@@ -9,7 +9,17 @@
     "per-category": "Per Category"
   },
   "page-titles": {
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "login": "Login"
+  },
+  "sub-titles": {
+    "login": {
+      "no-account": "Don't have an account ?"
+    }
+  },
+  "links": {
+    "create-account": "Let's create one !",
+    "forgot-password": "Forgot password ?"
   },
   "transactions": {
     "date": "Date",
@@ -29,6 +39,13 @@
     }
   },
   "form": {
-    "required": "@.capitalize:{field} is required."
+    "messages": {
+      "required": "This field is required.",
+      "email": "Please enter a valid email address."
+    }
+  },
+  "labels": {
+    "email": "Email",
+    "password": "Password"
   }
 }

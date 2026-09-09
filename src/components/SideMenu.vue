@@ -1,26 +1,41 @@
 <script setup lang="ts">
-import { Tickets, UserFilled, Wallet } from '@element-plus/icons-vue'
+import { ArrowRightBold, Tickets, UserFilled, Wallet } from '@element-plus/icons-vue'
 import { ElDivider, ElIcon, ElMenu, ElMenuItem } from 'element-plus'
 import { useRouter } from 'vue-router'
 import LocaleSelector from './LocaleSelector.vue'
+import { useAuthStore } from '@/stores/authStore.ts'
+import { ref } from 'vue'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
-const handleLogoClick = () => {
-  router.push('/')
+const isSideCollapsed = ref<boolean>(false)
+
+const handleLogout = () => {
+  router.push('/login')
+  authStore.logout()
+}
+
+const handleCollapse = () => {
+  isSideCollapsed.value = !isSideCollapsed.value
 }
 </script>
 
 <template>
-  <nav>
-    <ElMenu :default-active="$route.path" router>
-      <div class="menu-header" @click="handleLogoClick">
-        <div class="logo-section">
+  <nav style="position: relative">
+    <ElMenu
+      :default-active="$route.path"
+      router
+      :collapse="isSideCollapsed"
+      style="padding: 0 5px; min-width: 60px"
+    >
+      <div class="menu-header">
+        <div class="logo-section" @click="router.push('/')">
           <ElImage class="menu-logo" src="src\assets\images\myBudget.png" fit="cover" />
-          <span class="logo-text">MyBudget</span>
+          <span class="logo-text" v-show="!isSideCollapsed">MyBudget</span>
         </div>
 
-        <LocaleSelector style="align-self: top" />
+        <LocaleSelector style="align-self: top" v-show="!isSideCollapsed" />
       </div>
 
       <ElDivider style="width: 90%; margin: 10px auto; --el-border-color-light: #ff4d4f" />
@@ -39,7 +54,15 @@ const handleLogoClick = () => {
         <ElIcon><UserFilled /></ElIcon>
         <span>{{ $t('main-menus.groups') }}</span>
       </ElMenuItem>
+
+      <ElButton @click="handleLogout">Logout</ElButton>
     </ElMenu>
+
+    <div class="side-menu-collapse" @click="handleCollapse">
+      <ElIcon size="14px">
+        <ArrowRightBold />
+      </ElIcon>
+    </div>
   </nav>
 </template>
 
@@ -52,7 +75,7 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 0 5px 0 5px;
+  height: 60px;
 }
 
 .logo-section {
@@ -83,8 +106,6 @@ nav {
 }
 
 .el-menu-item {
-  padding-left: 10px !important;
-  margin: 0 5px;
   border-radius: 10px;
   height: 5vh;
 }
@@ -96,5 +117,20 @@ nav {
 .is-active {
   background-color: color-mix(var(--primary-color) 20%, transparent);
   font-weight: 600;
+}
+
+.side-menu-collapse {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 45px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 100%;
+  background-color: var(--surface-color);
+  cursor: pointer;
 }
 </style>
