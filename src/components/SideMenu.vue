@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ArrowRightBold, Tickets, UserFilled, Wallet } from '@element-plus/icons-vue'
+import { ArrowRightBold, SwitchButton, Tickets, UserFilled, Wallet } from '@element-plus/icons-vue'
 import { ElDivider, ElIcon, ElMenu, ElMenuItem } from 'element-plus'
 import { useRouter } from 'vue-router'
 import LocaleSelector from './LocaleSelector.vue'
 import { useAuthStore } from '@/stores/authStore.ts'
-import { ref } from 'vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
-const isSideCollapsed = ref<boolean>(false)
+const props = defineProps<{ collapsed: boolean }>()
+const emit = defineEmits<{ 'update:collapsed': [value: boolean] }>()
 
 const handleLogout = () => {
   router.push('/login')
@@ -17,25 +17,24 @@ const handleLogout = () => {
 }
 
 const handleCollapse = () => {
-  isSideCollapsed.value = !isSideCollapsed.value
+  emit('update:collapsed', !props.collapsed)
 }
 </script>
 
 <template>
   <nav style="position: relative">
-    <ElMenu
-      :default-active="$route.path"
-      router
-      :collapse="isSideCollapsed"
-      style="padding: 0 5px; min-width: 60px"
-    >
-      <div class="menu-header">
+    <ElMenu :default-active="$route.path" router :class="{ 'is-collapsed': collapsed }">
+      <div class="menu-header" :class="{ 'is-collapsed': collapsed }">
         <div class="logo-section" @click="router.push('/')">
           <ElImage class="menu-logo" src="src\assets\images\myBudget.png" fit="cover" />
-          <span class="logo-text" v-show="!isSideCollapsed">MyBudget</span>
+          <span class="logo-text" :class="{ 'is-collapsed': collapsed }" :aria-hidden="collapsed">
+            MyBudget
+          </span>
         </div>
 
-        <LocaleSelector style="align-self: top" v-show="!isSideCollapsed" />
+        <div class="locale-slot" :class="{ 'is-collapsed': collapsed }" :inert="collapsed">
+          <LocaleSelector />
+        </div>
       </div>
 
       <ElDivider style="width: 90%; margin: 10px auto; --el-border-color-light: #ff4d4f" />
@@ -55,27 +54,45 @@ const handleCollapse = () => {
         <span>{{ $t('main-menus.groups') }}</span>
       </ElMenuItem>
 
-      <ElButton @click="handleLogout">Logout</ElButton>
+      <ElMenuItem index="/login" @click="handleLogout">
+        <ElIcon><SwitchButton /></ElIcon>
+        <span>Logout</span>
+      </ElMenuItem>
     </ElMenu>
 
-    <div class="side-menu-collapse" @click="handleCollapse">
+    <button
+      class="side-menu-collapse"
+      :class="{ 'is-collapsed': collapsed }"
+      type="button"
+      :aria-label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+      @click="handleCollapse"
+    >
       <ElIcon size="14px">
         <ArrowRightBold />
       </ElIcon>
-    </div>
+    </button>
   </nav>
 </template>
 
 <style scoped>
 nav {
   height: 100dvh;
+  width: 100%;
 }
 
 .menu-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   height: 60px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.menu-header.is-collapsed {
+  justify-content: center;
+  padding: 0;
 }
 
 .logo-section {
@@ -83,13 +100,40 @@ nav {
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-  margin: 10px 0 0 0;
+  margin: 0;
   gap: 5px;
 }
 
 .logo-text {
   font-weight: 600;
   font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 110px;
+  opacity: 1;
+  transition:
+    max-width 0.25s ease,
+    opacity 0.15s ease;
+}
+
+.logo-text.is-collapsed {
+  max-width: 0;
+  opacity: 0;
+}
+
+.locale-slot {
+  flex: 0 0 auto;
+  max-width: 90px;
+  overflow: hidden;
+  opacity: 1;
+  transition:
+    max-width 0.25s ease,
+    opacity 0.15s ease;
+}
+
+.locale-slot.is-collapsed {
+  max-width: 0;
+  opacity: 0;
 }
 
 .menu-logo {
@@ -99,15 +143,44 @@ nav {
 
 .el-menu {
   height: 100dvh;
+  width: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding-top: 10px;
+  box-sizing: border-box;
+  transition: width 0.25s ease;
+}
+
+.el-menu :deep(.el-menu-item > span) {
+  display: inline-block;
+  max-width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 1;
+  transition:
+    max-width 0.25s ease,
+    opacity 0.15s ease;
+}
+
+.el-menu.is-collapsed :deep(.el-menu-item) {
+  justify-content: center;
+}
+
+.el-menu.is-collapsed :deep(.el-menu-item .el-icon) {
+  margin-right: 0;
+}
+
+.el-menu.is-collapsed :deep(.el-menu-item > span) {
+  max-width: 0;
+  opacity: 0;
 }
 
 .el-menu-item {
   border-radius: 10px;
   height: 5vh;
+  margin: 0 10px;
 }
 
 .el-menu-item:hover {
@@ -132,5 +205,14 @@ nav {
   border-radius: 100%;
   background-color: var(--surface-color);
   cursor: pointer;
+  padding: 0;
+  color: inherit;
+  transition:
+    transform 0.25s ease,
+    background-color 0.2s ease;
+}
+
+.side-menu-collapse.is-collapsed {
+  transform: rotate(180deg);
 }
 </style>

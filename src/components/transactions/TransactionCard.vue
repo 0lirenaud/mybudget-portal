@@ -28,7 +28,8 @@ const { data: transactions } = getTransactions(props.category.id)
 
 <style scoped>
 .el-card {
-  width: 480px;
+  width: min(480px, calc(100vw - 24px));
+  max-width: 100%;
 }
 
 .card-header {
