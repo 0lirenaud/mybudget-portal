@@ -1,6 +1,5 @@
 import i18n from '@/i18n/i18n'
 import type { JwtPayload } from 'jwt-decode'
-import { useI18n } from 'vue-i18n'
 import z from 'zod'
 
 export interface CustomJwtPayload extends JwtPayload {

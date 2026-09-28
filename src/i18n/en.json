@@ -46,6 +46,7 @@
   },
   "labels": {
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "name": "Name"
   }
 }
