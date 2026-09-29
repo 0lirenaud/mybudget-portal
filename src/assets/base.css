@@ -51,11 +51,13 @@
 
   --color-valid: var(--positive-color);
   --color-error: var(--negative-color);
+  --color-warning: #efab44;
 
   --section-gap: 160px;
 
   --el-menu-base-level-padding: 12px !important;
   --el-menu-active-color: var(--primary-color-dark) !important;
+  --el-text-color-regular: var(--color-text) !important;
 
   --el-color-primary: var(--primary-color) !important;
   --el-table-row-hover-bg-color: color-mix(var(--primary-color-dark) 10%, transparent) !important;

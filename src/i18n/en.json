@@ -41,12 +41,18 @@
   "form": {
     "messages": {
       "required": "This field is required.",
-      "email": "Please enter a valid email address."
+      "email": "Please enter a valid email address.",
+      "future-date": "The date can't be in the future."
     }
   },
   "labels": {
     "email": "Email",
     "password": "Password",
-    "name": "Name"
+    "name": "Name",
+    "description": "Description",
+    "amount": "Amount",
+    "is-recipient": "I received this transaction",
+    "category": "Category",
+    "registered-date": "Transaction date"
   }
 }

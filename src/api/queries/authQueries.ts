@@ -17,9 +17,8 @@ export const useLogin = () => {
 
     onSuccess: (data) => {
       const decoded = jwtDecode<CustomJwtPayload>(data.token)
-      console.log(decoded)
       const user: User = {
-        email: decoded.sub ?? '',
+        id: decoded.sub ?? '',
         role: decoded.role ?? Role.User,
       }
 
