@@ -8,12 +8,21 @@ import {
 } from '../../models/transaction'
 import { computed } from 'vue'
 import { useForm } from 'vee-validate'
-import { ElInput, ElFormItem, ElSwitch, ElDatePicker, ElSelect, ElOption } from 'element-plus'
+import {
+  ElInput,
+  ElFormItem,
+  ElDatePicker,
+  ElSelect,
+  ElOption,
+  ElRadioGroup,
+  ElRadioButton,
+  ElTimePicker,
+} from 'element-plus'
 import { getCategories } from '@/api/queries/categoryQueries'
 
 interface Props {
   onSubmit: (data: TransactionCreate) => void
-  transaction: TransactionCreate
+  transaction: Partial<TransactionCreate>
 }
 
 const props = defineProps<Props>()
@@ -23,6 +32,7 @@ const { data: categories, isLoading } = getCategories()
 
 const { handleSubmit, errors, setFieldError, defineField, validateField, resetForm } = useForm({
   validationSchema,
+  initialValues: props.transaction,
 })
 
 const opts = { validateOnModelUpdate: false }
@@ -32,6 +42,7 @@ const [amount] = defineField('amount', opts)
 const [isRecipient] = defineField('isRecipient', opts)
 const [registeredDate] = defineField('registeredDate', opts)
 const [category] = defineField('category', opts)
+const time = defineModel<string>({ default: '0' })
 
 const hasErrors = computed(() => Object.keys(errors.value).length > 0)
 
@@ -50,7 +61,7 @@ const parseAmount = (value?: string): string => {
   const padded = digits.padStart(3, '0')
   const next = `${padded.slice(0, -2)}.${padded.slice(-2)}`
 
-  if (Number(next) > MAX_AMOUNT) return amount.value ?? ''
+  if (Number(next) > MAX_AMOUNT) return String(amount.value) ?? ''
   return next
 }
 
@@ -68,7 +79,7 @@ const descriptionLength = computed(() => (description.value ?? '').length)
     <ElFormItem :label="$t('labels.name')" :error="errors.name" :required="true">
       <ElInput
         v-model="name"
-        :placeholder="$t('labels.name')"
+        :placeholder="$t('form.placeholders.transaction-name')"
         @input="setFieldError('name', undefined)"
         @blur="validateField('name')" />
     </ElFormItem>
@@ -81,7 +92,7 @@ const descriptionLength = computed(() => (description.value ?? '').length)
         :rows="4"
         type="textarea"
         v-model="description"
-        :placeholder="$t('labels.description')"
+        :placeholder="$t('form.placeholders.transaction-description')"
         @input="setFieldError('description', undefined)"
         @blur="validateField('description')" />
       <span
@@ -108,25 +119,13 @@ const descriptionLength = computed(() => (description.value ?? '').length)
       </ElInput>
     </ElFormItem>
 
-    <ElFormItem :label="$t('labels.is-recipient')">
-      <ElSwitch size="large" v-model="isRecipient" />
-    </ElFormItem>
-
-    <ElFormItem
-      :label="$t('labels.registered-date')"
-      :error="errors.registeredDate"
-      :required="true">
-      <ElDatePicker
-        v-model="registeredDate"
-        @blur="validateField('registeredDate')"
-        type="date"
-        placeholder="Pick a day"
-        :disabled-date="disableFutureDates"
-        size="large" />
-    </ElFormItem>
-
     <ElFormItem :label="$t('labels.category')" :error="errors.category" :required="true">
-      <ElSelect v-model="category" :placeholder="$t('labels.category')">
+      <ElSelect
+        v-model="category"
+        :placeholder="$t('form.placeholders.transaction-category')"
+        size="large"
+        popper-class="select-options"
+        @blur="validateField('category')">
         <ElOption
           v-for="category of categories"
           :key="category.id"
@@ -134,6 +133,34 @@ const descriptionLength = computed(() => (description.value ?? '').length)
           :value="category.id" />
       </ElSelect>
     </ElFormItem>
+
+    <ElFormItem :label="$t('labels.is-recipient')">
+      <ElRadioGroup v-model="isRecipient" size="large" class="switch-input">
+        <ElRadioButton :label="$t('form.placeholders.transaction-expense')" :value="false" />
+        <ElRadioButton :label="$t('form.placeholders.transaction-revenu')" :value="true" />
+      </ElRadioGroup>
+    </ElFormItem>
+
+    <div style="display: flex; justify-content: space-between">
+      <ElFormItem :label="$t('labels.date')" :error="errors.registeredDate" :required="true">
+        <ElDatePicker
+          v-model="registeredDate"
+          @blur="validateField('registeredDate')"
+          type="date"
+          :placeholder="$t('form.placeholders.date')"
+          :disabled-date="disableFutureDates"
+          size="large" />
+      </ElFormItem>
+
+      <ElFormItem :label="$t('labels.time')">
+        <ElTimePicker
+          v-model="time"
+          value="0"
+          format="HH:mm"
+          :placeholder="$t('form.placeholders.time')"
+          size="large" />
+      </ElFormItem>
+    </div>
   </ElForm>
 </template>
 

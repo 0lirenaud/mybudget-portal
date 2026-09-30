@@ -29,6 +29,6 @@ const { currentUser } = useAuthStore()
   <ElDialog v-model="isModalOpened" align-center destroy-on-close :close-on-click-modal="false">
     <TransactionForm
       :onSubmit="onSubmit"
-      :transaction="{ createdBy: currentUser?.id } as TransactionCreate" />
+      :transaction="{ isRecipient: false, createdBy: currentUser?.id } as TransactionCreate" />
   </ElDialog>
 </template>

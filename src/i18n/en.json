@@ -43,6 +43,15 @@
       "required": "This field is required.",
       "email": "Please enter a valid email address.",
       "future-date": "The date can't be in the future."
+    },
+    "placeholders": {
+      "transaction-name": "Ex. : Groceries, repairs, etc.",
+      "transaction-description": "Ex. : Office supplies, restaurant, etc.",
+      "transaction-category": "Select a category",
+      "transaction-expense": "Expense",
+      "transaction-revenu": "Income",
+      "date": "Select a date",
+      "time": "Select a time"
     }
   },
   "labels": {
@@ -51,8 +60,9 @@
     "name": "Name",
     "description": "Description",
     "amount": "Amount",
-    "is-recipient": "I received this transaction",
+    "is-recipient": "Transaction type",
     "category": "Category",
-    "registered-date": "Transaction date"
+    "date": "Date",
+    "time": "Time"
   }
 }
