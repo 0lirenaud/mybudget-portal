@@ -63,6 +63,14 @@ main,
   border-color: var(--primary-color-light) !important;
 }
 
+.icon-title {
+  font-size: 50px !important; 
+  background-color: var(--primary-color); 
+  padding: 10px; 
+  border-radius: 10px; 
+  color: white !important;
+}
+
 /* CARD */
 .el-card__body {
   padding: 0 !important;

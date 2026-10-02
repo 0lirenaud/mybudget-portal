@@ -6,7 +6,7 @@ import {
   TransactionCreateSchema,
   type TransactionCreate,
 } from '../../models/transaction'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useForm } from 'vee-validate'
 import {
   ElInput,
@@ -17,8 +17,12 @@ import {
   ElRadioGroup,
   ElRadioButton,
   ElTimePicker,
+  ElIcon,
 } from 'element-plus'
 import { getCategories } from '@/api/queries/categoryQueries'
+import { useI18n } from 'vue-i18n'
+import { Wallet } from '@element-plus/icons-vue'
+import { formatAmount } from '@/utils/moneyUtils'
 
 interface Props {
   onSubmit: (data: TransactionCreate) => void
@@ -26,6 +30,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const i18n = useI18n()
 const validationSchema = computed(() => toTypedSchema(TransactionCreateSchema()))
 
 const { data: categories, isLoading } = getCategories()
@@ -43,16 +48,11 @@ const [isRecipient] = defineField('isRecipient', opts)
 const [registeredDate] = defineField('registeredDate', opts)
 const [category] = defineField('category', opts)
 const time = defineModel<string>({ default: '0' })
+const timeErrors = ref()
 
 const hasErrors = computed(() => Object.keys(errors.value).length > 0)
 
-const formatAmount = (value: string): string => {
-  if (!value) return ''
-
-  const [int = '', dec] = value.split('.')
-  const grouped = int.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  return `${grouped}${dec !== undefined ? `.${dec}` : ''}`
-}
+const submit = handleSubmit((values) => props.onSubmit(values))
 
 const parseAmount = (value?: string): string => {
   const digits = (value ?? '').replace(/\D/g, '').replace(/^0+/, '')
@@ -65,17 +65,25 @@ const parseAmount = (value?: string): string => {
   return next
 }
 
-const disableFutureDates = (date: Date): boolean => {
-  const endOfToday = new Date()
-  endOfToday.setHours(23, 59, 59, 999)
-  return date.getTime() > endOfToday.getTime()
+const descriptionLength = computed(() => (description.value ?? '').length)
+
+const validateTime = () => {
+  if (!time.value)
+    timeErrors.value = i18n.t("form.messages.required")
 }
 
-const descriptionLength = computed(() => (description.value ?? '').length)
 </script>
 
 <template>
-  <ElForm label-position="top" @submit.prevent="onSubmit">
+  <div class="title-section" style="display: flex; align-items: center; gap: 15px">
+    <ElIcon class="icon-title"><Wallet /></ElIcon>
+    <div>
+      <h2 class="title">New transaction</h2>
+      <span class="subtitle">Add a new transaction to your budget</span>
+    </div>
+  </div>
+
+  <ElForm label-position="top" @submit.prevent="submit" style="margin-top: 20px;" id="transaction-form">
     <ElFormItem :label="$t('labels.name')" :error="errors.name" :required="true">
       <ElInput
         v-model="name"
@@ -141,23 +149,25 @@ const descriptionLength = computed(() => (description.value ?? '').length)
       </ElRadioGroup>
     </ElFormItem>
 
-    <div style="display: flex; justify-content: space-between">
-      <ElFormItem :label="$t('labels.date')" :error="errors.registeredDate" :required="true">
+    <div style="display: flex; justify-content: space-between; gap: 30px">
+      <ElFormItem :label="$t('labels.date')" :error="errors.registeredDate" :required="true" style="width: 100%">
         <ElDatePicker
+          style="width: 100%"
           v-model="registeredDate"
           @blur="validateField('registeredDate')"
           type="date"
           :placeholder="$t('form.placeholders.date')"
-          :disabled-date="disableFutureDates"
           size="large" />
       </ElFormItem>
 
-      <ElFormItem :label="$t('labels.time')">
+      <ElFormItem :label="$t('labels.time')" :error="timeErrors" style="width: 100%" required>
         <ElTimePicker
+          style="width: 100%"
           v-model="time"
           value="0"
           format="HH:mm"
           :placeholder="$t('form.placeholders.time')"
+          @blur="validateTime"
           size="large" />
       </ElFormItem>
     </div>

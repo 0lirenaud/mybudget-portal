@@ -30,5 +30,12 @@ const { currentUser } = useAuthStore()
     <TransactionForm
       :onSubmit="onSubmit"
       :transaction="{ isRecipient: false, createdBy: currentUser?.id } as TransactionCreate" />
+
+    <template #footer>
+      <ElButton @click="isModalOpened = false">{{ $t("buttons.cancel") }}</ElButton>
+      <ElButton type="primary" native-type="submit" form="transaction-form">
+        {{ $t("buttons.save") }}
+      </ElButton>
+    </template>
   </ElDialog>
 </template>

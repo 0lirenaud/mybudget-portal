@@ -29,7 +29,7 @@ const { data: transactions } = getTransactions()
             label="Category"
             property="category.name"
             min-width="180px"
-          ></ElTableColumn>
+          />
 
           <ElTableColumn label="Group">
             <template #default="scope">

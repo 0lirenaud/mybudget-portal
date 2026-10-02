@@ -30,7 +30,8 @@
     "save": "Save",
     "edit": "Edit",
     "manage": "Manage",
-    "delete": "Delete"
+    "delete": "Delete",
+    "cancel": "Cancel"
   },
   "operations": "Operations",
   "warnings": {

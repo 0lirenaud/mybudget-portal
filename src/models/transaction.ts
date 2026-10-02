@@ -28,8 +28,7 @@ const TransactionSchema = () =>
       .date({
         required_error: t('form.messages.required'),
         invalid_type_error: t('form.messages.required'),
-      })
-      .refine((d) => d.getTime() <= Date.now(), t('form.messages.future-date')),
+      }),
     category: CategorySchema,
     createdBy: z.string().uuid(),
     group: z.string().nullable().optional(),
